@@ -1,3 +1,4 @@
+# Responsible for validate and padronize the data that go in or go out of the API
 from pydantic import BaseModel, Field
 # pydantic is a high-performance Python data validation and settings management that uses Python type hints
 # BaseModel is used for data validation on interface, parsing and serialization based on Python type hints
@@ -11,6 +12,9 @@ class ProductBase(BaseModel):
     description: str
     price: Decimal = Field(gt=0, description="gt=0: the price product will always be bigger then zero") 
     stock: int = Field(ge=0, description="ge=0: the price product will never  be less than zero") 
+
+class ProductCreate(ProductBase):
+    pass
 
 class ProductUpdate(BaseModel):
     name: Optional[str]

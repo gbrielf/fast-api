@@ -1,3 +1,7 @@
+# main point of entry ino the application
+from fastapi import FastAPI
+from core.database import engine, Base
+from routes.product_routes import router as product_router
 from sqlalchemy import create_engine
 # establishing a source of connectivity to a specific database
 from sqlalchemy.orm import sessionmaker, declarative_base
@@ -5,6 +9,13 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 # and declarative base is a foundational class that allows you to define object-relational mapping (ORM) models
 
 DATABASE_URL = "sqlite:///./supermercado.db"
+
+# if the tables in the DB doesn't exists it will be created, this action are made for facilitate the execution of script dependences on extern SQL   
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="API for manager supermarkets")
+
+app.include_router(product_router)
 
 # Conection creation with the DB started
 # the "engine" is responsable for send and receive comands SQL
